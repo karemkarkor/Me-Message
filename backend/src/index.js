@@ -1,7 +1,7 @@
 import express from "express"
-import "dotenv/config"
 import {clerkMiddleware} from "@clerk/express"
 import cors from "cors"
+import "dotenv/config"
 
 // Local imports
 import connectDB from "./lib/connectDB.js"

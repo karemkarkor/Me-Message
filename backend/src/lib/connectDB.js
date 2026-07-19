@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const connectDB = async() => {
     try {
-        const mongouri = process.env.MONGO_URI;
+        const mongoUri = process.env.MONGO_URI;
 
-        if (!mongouri) {
-            throw new Error("MONGOURI is required");
+        if (!mongoUri) {
+            throw new Error("MONGO_URI is required");
         }
 
-        const conn = await mongoose.connect(mongouri);
+        const conn = await mongoose.connect(mongoUri);
 
         console.log("MONGODB connected",conn.connection.host);
         
