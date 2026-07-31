@@ -7,6 +7,7 @@ import path from "path"
 
 // Local imports
 import connectDB from "./lib/connectDB.js"
+import job from "./lib/cron.js"
 
 const app = express()
 
@@ -37,4 +38,6 @@ if(fs.existsSync(publicDir)){
 app.listen(PORT, ()=> {
     connectDB();
     console.log("Server running on PORT:", PORT)
+
+    if(process.env.NODE_ENV === "production") job.start();
 })
