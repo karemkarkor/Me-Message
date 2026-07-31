@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "rm -rf dist && cp -RR src dist",
     "dev": "node --watch src/index.js",
     "start": "node src/index.js"
   },
