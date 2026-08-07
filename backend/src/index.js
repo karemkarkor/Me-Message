@@ -1,22 +1,24 @@
-import express from "express"
 import {clerkMiddleware} from "@clerk/express"
+import express from "express"
 import cors from "cors"
-import "dotenv/config"
-import fs from "fs"
 import path from "path"
+import fs from "fs"
+import "dotenv/config"
 
 // Local imports
+import clerkWebhook from "./webhooks/clerk.webhook.js"
+import authRoutes from "./routes/auth.route.js"
 import connectDB from "./lib/connectDB.js"
 import job from "./lib/cron.js"
-import clerkWebhook from "./webhooks/clerk.webhook.js"
 
 const app = express()
 
+
 const PORT = process.env.PORT || 3000
 const FRONTEND_URL = process.env.FRONTEND_URL
-
 const publicDir = path.join(process.cwd(), "public")
 
+// Clerk webhook
 app.use("/api/webhooks/clerk",express.raw({ type: "application/json"}), clerkWebhook)
 
 // MiddleWare
@@ -28,8 +30,11 @@ app.use(clerkMiddleware())
 // Routes
 
 app.get("/heath", (req,res)=> res.status(200).json({ok:true}))
+app.use("/api/auth", authRoutes)
 
 
+
+// Production Ready
 if(fs.existsSync(publicDir)){
     app.use(express.static(publicDir))
 
