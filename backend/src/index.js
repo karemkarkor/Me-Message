@@ -7,9 +7,11 @@ import "dotenv/config"
 
 // Local imports
 import clerkWebhook from "./webhooks/clerk.webhook.js"
+import messageRoutes from "./routes/message.route.js"
 import authRoutes from "./routes/auth.route.js"
 import connectDB from "./lib/connectDB.js"
 import job from "./lib/cron.js"
+import { protectRoute } from "./middleware/auth.middleware.js"
 
 const app = express()
 
@@ -29,8 +31,9 @@ app.use(clerkMiddleware())
 
 // Routes
 
-app.get("/heath", (req,res)=> res.status(200).json({ok:true}))
+app.get("/health", (req,res)=> res.status(200).json({ok:true}))
 app.use("/api/auth", authRoutes)
+app.use("/api/messages",protectRoute, messageRoutes)
 
 
 
